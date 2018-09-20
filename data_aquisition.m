@@ -5,7 +5,6 @@
 
 % file name for q1
 file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response6.csv';
-
 % file name for q2
 file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response4.csv';
 
@@ -66,6 +65,7 @@ xt = get(gca, 'XTick');
 set(gca, 'FontSize', 12);
 yt = get(gca, 'YTick');
 set(gca, 'FontSize', 12);
+print -depsc2 q1_initial_response.eps
 
 % Response for q2
 figure(2)
@@ -81,31 +81,73 @@ xt = get(gca, 'XTick');
 set(gca, 'FontSize', 12);
 yt = get(gca, 'YTick');
 set(gca, 'FontSize', 12);
-
+print -depsc2 q2_initial_response.eps
 % filter to use: moving,lowess, loess, sgolay,rlowess,rloess
 
 abs_fft_q1 = abs(fft(q1));
 abs_fft_q2 = abs(fft(q2));
 
+Fs = 1000;          % sampling rate
+T = 1/Fs;
+L_q1 = length(time_q1);
+time_q1=time_q1./1000;
+Y_q1 = fft(q1);
+P2_q1 = abs(Y_q1/L_q1);
+P1_q1 = P2_q1(1:L_q1/2+1);
+P1_q1(2:end-1) = 2*P1_q1(2:end-1);
+f_q1 = Fs*(0:(L_q1/2))/L_q1;
+
+L_q2 = length(time_q2);
+time_q2=time_q2./1000;
+Y_q2 = fft(q2);
+P2_q2 = abs(Y_q2/L_q2);
+P1_q2 = P2_q2(1:L_q2/2+1);
+P1_q2(2:end-1) = 2*P1_q2(2:end-1);
+f_q2 = Fs*(0:(L_q2/2))/L_q2;
 
 
 
+fig3 = figure(3);
 
-
-
-
-
-
-
-figure(3);
-plot(abs_fft_q1(1:100),'-*r', 'LineWidth',2)
+plot(f_q1(1:80),P1_q1(1:80),'-*r', 'LineWidth',2) 
 grid on
 hold on
-plot(abs_fft_q2(1:100),'-*b', 'LineWidth',2)
+plot(f_q2(1:20),P1_q2(1:20),'-*b', 'LineWidth',2)
 title('Frequency Content of Initial Condition System Responses','Interpreter','latex','FontSize',12)
 ylabel('Magnitude ','Interpreter','latex','FontSize',12);
 xlabel('Frequency [Hz]','Interpreter','latex','FontSize',12);
-legend({'System Response with $\phi = 0$ rad','System Response with  $\theta = 0$'},'Interpreter','latex','FontSize',12)
+legend({'System Response with $\phi = 0$ rad','System Response with  $\theta = 0$ rad'},'Interpreter','latex','FontSize',12)
+dcm_obj = datacursormode(fig3);
+set(dcm_obj,'UpdateFcn',@myupdatefcn,'DisplayStyle','datatip', 'SnapToDataVertex','on','Enable','on');
+% set(dcm_obj,'UpdateFcn',@myupdatefcn)
+
+c_info = getCursorInfo(dcm_obj);
+c_info = getCursorInfo(dcm_obj);
+
+disp('Click line to display a data tip, then press Return.')
+% Wait while the user does this.
+pause 
+print -depsc2 FFT_system.eps
+
+%% Curve fitting zeta for q1 response
+wn = 24.5421;
+
+decay_function = @(zeta,time_q1)-1.61*exp(-zeta*wn*time_q1).*cos(wn*sqrt(1-zeta_lsq^2).*time_q1);
+
+zeta_start = 0.02;
+
+zeta_lsq = lsqcurvefit(decay_function,zeta_start,time_q1./1000,q1)
+zeta_lsq = 0.02;
+ decay_approx = -1.6*exp(-zeta_lsq*wn*time_q1);
+response_approx = -1.61*exp(-zeta_lsq*wn*time_q1).*cos(wn*sqrt(1-zeta_lsq^2).*time_q1);
+
+figure(4)
+plot(time_q1,q1,'r');
+
+
+
+%%
+
 
 
 
