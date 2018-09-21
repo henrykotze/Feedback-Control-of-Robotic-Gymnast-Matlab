@@ -6,7 +6,7 @@
 % file name for q1
 file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response6.csv';
 % file name for q2
-file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response4.csv';
+file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response8.csv';
 
 % time increments
 time_steps = 1e-3;
@@ -52,7 +52,7 @@ q1 = smooth(q1);
 q2 = smooth(q2);
 
 %  Response for q1
-figure(1);
+% figure(1);
 plot(time_q1,q1,'.r');
 title('System Response from Initial Conditions with $\phi = 0 $ ','Interpreter','latex','FontSize',12)
 yticks([-2*pi -pi 0 pi 2*pi]);
@@ -68,7 +68,7 @@ set(gca, 'FontSize', 12);
 print -depsc2 q1_initial_response.eps
 
 % Response for q2
-figure(2)
+% figure(2)
 plot(time_q2,q2,'b.');
 title('System Response from Initial Conditions with $\theta = 0 $ ','Interpreter','latex','FontSize',12)
 yticks([-2*pi -pi 0 pi 2*pi]);
@@ -107,7 +107,7 @@ f_q2 = Fs*(0:(L_q2/2))/L_q2;
 
 
 
-fig3 = figure(3);
+ fig3 = figure(3);
 
 plot(f_q1(1:80),P1_q1(1:80),'-*r', 'LineWidth',2) 
 grid on
@@ -126,23 +126,27 @@ c_info = getCursorInfo(dcm_obj);
 
 disp('Click line to display a data tip, then press Return.')
 % Wait while the user does this.
-pause 
-print -depsc2 FFT_system.eps
+% pause 
+% print -depsc2 FFT_system.eps
 
 %% Curve fitting zeta for q1 response
 wn = 24.5421;
 
-decay_function = @(zeta,time_q1)-1.61*exp(-zeta*wn*time_q1).*cos(wn*sqrt(1-zeta_lsq^2).*time_q1);
+% decay_function = @(zeta,time_q1)-1.61*exp(-zeta*wn*time_q1).*cos(wn*sqrt(1-zeta_lsq^2).*time_q1);
 
 zeta_start = 0.02;
 
-zeta_lsq = lsqcurvefit(decay_function,zeta_start,time_q1./1000,q1)
-zeta_lsq = 0.02;
- decay_approx = -1.6*exp(-zeta_lsq*wn*time_q1);
-response_approx = -1.61*exp(-zeta_lsq*wn*time_q1).*cos(wn*sqrt(1-zeta_lsq^2).*time_q1);
+% zeta_lsq = lsqcurvefit(decay_function,zeta_start,time_q1./1000,q1)
+% zeta_lsq = 0.02;
+%  decay_approx = -1.6*exp(-zeta_lsq*wn*time_q1);
+% response_approx = -1.61*exp(-zeta_lsq*wn*time_q1).*cos(wn*sqrt(1-zeta_lsq^2).*time_q1);
 
 figure(4)
 plot(time_q1,q1,'r');
+
+figure(5)
+plot(time_q2,q2,'-*r');
+grid on 
 
 
 

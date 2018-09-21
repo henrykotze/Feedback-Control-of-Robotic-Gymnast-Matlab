@@ -1,4 +1,4 @@
-Experiment #,natural Frequecy 1,natural Frequecy 2,zeta 1,zeta 2
+Experiment #,Natural Frequecy 1,Natural Frequecy 2,zeta 1,zeta 2
 1,4.0152,,,
 2,3.876,,,
 3,3.9749,,,
@@ -9,5 +9,6 @@ Experiment #,natural Frequecy 1,natural Frequecy 2,zeta 1,zeta 2
 8,1,,,
 9,1,,,
 10,1,,,
-Standard deviation,1.561590539,#DIV/0!,#DIV/0!,#DIV/0!
-mean,2.645266667,#VALUE!,#VALUE!,#VALUE!
+Standard deviation,0.068598083,#DIV/0!,#DIV/0!,#DIV/0!
+mean,3.975275,#VALUE!,#VALUE!,#VALUE!
+average,3.975275,,,
