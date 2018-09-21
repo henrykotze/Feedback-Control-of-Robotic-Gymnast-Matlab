@@ -1,14 +1,14 @@
-Experiment #,Natural Frequecy 1,Natural Frequecy 2,zeta 1,zeta 2
-1,4.0152,,,
-2,3.876,,,
-3,3.9749,,,
-4,4.035,,,
-5,,,,
-6,3.9063,,,
-7,1,,,
-8,1,,,
-9,1,,,
-10,1,,,
-Standard deviation,0.068598083,#DIV/0!,#DIV/0!,#DIV/0!
-mean,3.975275,#VALUE!,#VALUE!,#VALUE!
-average,3.975275,,,
+Experiment #,Natural Frequecy 1,Natural Frequecy 2,zeta 1 beginning,zeta 1 end,zeta 1 overall,zeta 2 beginning,zeta 2 end
+1,4.0152,,0.000019931,0.000077678,,,
+2,3.876,,0.000015195,0.000072452,,,
+3,3.9749,,0.000017445,0.000055464,,,
+4,4.035,,0.000018811,0.000092056,,,
+5,3.9063,,0.000017679,0.00012801,,,
+6,,,,,,,
+7,1,,,,,,
+8,1,,,,,,
+9,1,,,,,,
+10,1,,,,,,
+Standard deviation,0.068598083,#DIV/0!,1.76701E-06,2.73084E-05,,,
+mean,3.975275,#VALUE!,1.78122E-05,0.000085132,,,
+average,3.975275,,,,,,

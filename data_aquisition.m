@@ -6,7 +6,7 @@
 % file name for q1
 file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response6.csv';
 % file name for q2
-file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response8.csv';
+file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response2.csv';
 
 % time increments
 time_steps = 1e-3;
@@ -33,6 +33,15 @@ q1dot = cent_diff_n(q1,time_steps,3);
 q2dot = cent_diff_n(q2,time_steps,3);
 q1dotdot = cent_diff_n(q1dot,time_steps,3);
 q2dotdot = cent_diff_n(q2dot,time_steps,3);
+
+figure(4)
+plot(time_q1,q1,'r');
+grid on
+figure(5)
+plot(time_q2,q2,'-*r');
+grid on 
+
+
 
 %% Data Cleaning
 % Removing points outside boundary:
@@ -65,7 +74,7 @@ xt = get(gca, 'XTick');
 set(gca, 'FontSize', 12);
 yt = get(gca, 'YTick');
 set(gca, 'FontSize', 12);
-print -depsc2 q1_initial_response.eps
+% print -depsc2 q1_initial_response.eps
 
 % Response for q2
 % figure(2)
@@ -81,7 +90,10 @@ xt = get(gca, 'XTick');
 set(gca, 'FontSize', 12);
 yt = get(gca, 'YTick');
 set(gca, 'FontSize', 12);
-print -depsc2 q2_initial_response.eps
+% print -depsc2 q2_initial_response.eps
+
+
+
 % filter to use: moving,lowess, loess, sgolay,rlowess,rloess
 
 abs_fft_q1 = abs(fft(q1));
@@ -136,21 +148,22 @@ wn = 24.5421;
 
 zeta_start = 0.02;
 
-% zeta_lsq = lsqcurvefit(decay_function,zeta_start,time_q1./1000,q1)
-% zeta_lsq = 0.02;
-%  decay_approx = -1.6*exp(-zeta_lsq*wn*time_q1);
-% response_approx = -1.61*exp(-zeta_lsq*wn*time_q1).*cos(wn*sqrt(1-zeta_lsq^2).*time_q1);
 
-figure(4)
-plot(time_q1,q1,'r');
 
-figure(5)
-plot(time_q2,q2,'-*r');
+%% Determing the Damping for q1 Response
+fig8 = figure(8)
+plot(time_q1,q1,'.r');
 grid on 
+dcm_obj = datacursormode(fig8);
+set(dcm_obj,'DisplayStyle','datatip','SnapToDataVertex','off','Enable','on')
+pause
+c_info = getCursorInfo(dcm_obj)
 
 
 
-%%
+
+%% Determining the Damping for q2 reponse
+
 
 
 
