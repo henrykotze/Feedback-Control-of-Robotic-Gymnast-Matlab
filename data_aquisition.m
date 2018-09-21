@@ -1,4 +1,6 @@
-%% Data Acquisition
+%% Data Acquisition & determine the natural frequencies 
+% Plots the time responses of the data and does FFT to indicate the natural
+% frequencies
 
 % Data structure within .csv file:
 % time,q1,q2,tau
@@ -33,15 +35,6 @@ q1dot = cent_diff_n(q1,time_steps,3);
 q2dot = cent_diff_n(q2,time_steps,3);
 q1dotdot = cent_diff_n(q1dot,time_steps,3);
 q2dotdot = cent_diff_n(q2dot,time_steps,3);
-
-figure(4)
-plot(time_q1,q1,'r');
-grid on
-figure(5)
-plot(time_q2,q2,'-*r');
-grid on 
-
-
 
 %% Data Cleaning
 % Removing points outside boundary:
@@ -137,34 +130,7 @@ c_info = getCursorInfo(dcm_obj);
 c_info = getCursorInfo(dcm_obj);
 
 disp('Click line to display a data tip, then press Return.')
-% Wait while the user does this.
-% pause 
-% print -depsc2 FFT_system.eps
-
-%% Curve fitting zeta for q1 response
-wn = 24.5421;
-
-% decay_function = @(zeta,time_q1)-1.61*exp(-zeta*wn*time_q1).*cos(wn*sqrt(1-zeta_lsq^2).*time_q1);
-
-zeta_start = 0.02;
-
-
-
-%% Determing the Damping for q1 Response
-fig8 = figure(8)
-plot(time_q1,q1,'.r');
-grid on 
-dcm_obj = datacursormode(fig8);
-set(dcm_obj,'DisplayStyle','datatip','SnapToDataVertex','off','Enable','on')
-pause
-c_info = getCursorInfo(dcm_obj)
-
-
-
-
-%% Determining the Damping for q2 reponse
-
-
-
-
+% Wait while user select points
+% pause  % uncomment to select points before saving
+% print -depsc2 FFT_system.eps  % Save points
 

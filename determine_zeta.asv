@@ -1,9 +1,7 @@
-%% Determine zeta's for response
-% Script allows you to select the peaks of the response and assuming a
-% exponential decaying function it will determine the best zeta values
-% based on linear regression
-
-% Requires natural frequency for responses, determine in data_aquisition.m
+%% Determine zeta for response
+% 
+%% Natural frequencies of response
+% Requires natural frequency determine in data_aquisition.m
 q1_wn = 3.975275*2*pi;
 q2_wn = 1.2*2*pi;
 
@@ -72,13 +70,13 @@ yt = get(gca, 'YTick');
 set(gca, 'FontSize', 12);
 hold on
 
-% select 10 first peaks to determine best fit zeta
+% for beginning part
 [x_q11,y_q11] = ginput(10);
 fit = polyfit(x_q11(1:end), log(-1.*y_q11),1)
 zeta_11 = fit(1)./(-q1_wn)
 A_11 = exp(fit(2))
 plot(time_q1, A_11.*exp(-1*zeta_11*q1_wn*time_q1),'-b','LineWidth',2);
-% select 5 last peaks to determine best fit zeta
+% for end part
 [x_q12,y_q12] = ginput(5);
 fit = polyfit(x_q12(1:end), log(-1.*y_q12),1)
 zeta_12 = fit(1)./(-q1_wn)
