@@ -18,6 +18,7 @@ motor_mass = 0.205; % [kg] motor mass
 
 
 
+
 m1 = volume_cyl*p1 + motor_mass;  % [kg] mass of pendulum 1
 g = 9.81;                       % [mm/s^2] gravity 
 L1 = 0.25;                       % [mm] Total lenght of pendulum 1

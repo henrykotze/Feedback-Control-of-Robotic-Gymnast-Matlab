@@ -8,7 +8,7 @@
 % file name for q1
 file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response6.csv';
 % file name for q2
-file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response2.csv';
+file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response1.csv';
 
 % time increments
 time_steps = 1e-3;
@@ -54,7 +54,7 @@ q1 = smooth(q1);
 q2 = smooth(q2);
 
 %  Response for q1
-% figure(1);
+figure(1);
 plot(time_q1,q1,'.r');
 title('System Response from Initial Conditions with $\phi = 0 $ ','Interpreter','latex','FontSize',12)
 yticks([-2*pi -pi 0 pi 2*pi]);
@@ -70,7 +70,7 @@ set(gca, 'FontSize', 12);
 % print -depsc2 q1_initial_response.eps
 
 % Response for q2
-% figure(2)
+figure(2)
 plot(time_q2,q2,'b.');
 title('System Response from Initial Conditions with $\theta = 0 $ ','Interpreter','latex','FontSize',12)
 yticks([-2*pi -pi 0 pi 2*pi]);
@@ -92,12 +92,14 @@ set(gca, 'FontSize', 12);
 abs_fft_q1 = abs(fft(q1));
 abs_fft_q2 = abs(fft(q2));
 
+% found from: https://www.mathworks.com/help/matlab/ref/fft.html
+
 Fs = 1000;          % sampling rate
 T = 1/Fs;
-L_q1 = length(time_q1);
-time_q1=time_q1./1000;
-Y_q1 = fft(q1);
-P2_q1 = abs(Y_q1/L_q1);
+L_q1 = length(time_q1);         % number of samples taken
+time_q1=time_q1./1000;      % convert time_q1 from [ms] to [s]
+Y_q1 = fft(q1);                     % FFT of response
+P2_q1 = abs(Y_q1);              % absolute value of FFT 
 P1_q1 = P2_q1(1:L_q1/2+1);
 P1_q1(2:end-1) = 2*P1_q1(2:end-1);
 f_q1 = Fs*(0:(L_q1/2))/L_q1;
@@ -105,7 +107,7 @@ f_q1 = Fs*(0:(L_q1/2))/L_q1;
 L_q2 = length(time_q2);
 time_q2=time_q2./1000;
 Y_q2 = fft(q2);
-P2_q2 = abs(Y_q2/L_q2);
+P2_q2 = abs(Y_q2);
 P1_q2 = P2_q2(1:L_q2/2+1);
 P1_q2(2:end-1) = 2*P1_q2(2:end-1);
 f_q2 = Fs*(0:(L_q2/2))/L_q2;

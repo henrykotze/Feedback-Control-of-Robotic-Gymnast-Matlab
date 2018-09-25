@@ -2,10 +2,10 @@
 % Script allows you to select the peaks of the response and assuming a
 % exponential decaying function it will determine the best zeta values
 % based on linear regression
-
+clear all
 % Requires natural frequency for responses, determine in data_aquisition.m
 q1_wn = 3.975275*2*pi;
-q2_wn = 1.2*2*pi;
+q2_wn = 1.5*2*pi;
 
 
 % file name for q1
@@ -115,8 +115,10 @@ hold on
 % 
 % fit = polyfit(x_q2(1:end), log(y_q2),1)
 % 
-% zeta_2 = fit(1)./(-q2_wn)
+zeta_2 = fit(1)./(-q2_wn)
 % A_2 = exp(fit(2))
 % 
-% plot(time_q2, A_1.*exp(-1*zeta_1*q2_wn*time_q2));
+
+zeta_2=0.6;
+plot(time_q2+200, pi.*exp(-1*zeta_2*q2_wn.*time_q2./1000));
 

@@ -8,26 +8,26 @@ run('variables');
 step_size = 0.001;          % time step
 time = 50;                  % time lenght of the simulation
 %% initial condition:
-theta_start = 0.0;            % [rad]
-phi_start = pi/2;              % [rad]
+theta_start = pi/8;            % [rad]
+phi_start = 0;              % [rad]
 theta_dot_start = -0.0;      % [rad/s]
-phi_dot_start = 0.5;       % [rad/s]
+phi_dot_start = 0.0;       % [rad/s]
 state = 0;
 
 %% Simulation constants
-Kp = 50;
+Kp = 58;
 Kd = 12.7;
-angle_restrict = pi/2;
+angle_restrict = pi/1.5;
 % region_1 = pi/40;
 % region_2 = pi/20;
 region_1 = pi/5;
 region_2 = pi/2.5;
-encoder_resolution = 1/448;
+encoder_resolution = 1/986;
 ADC_resolution = 1/4095;
 
 %%
 % Saturation
-motor_stall_torque = 0.68*2;
+motor_stall_torque = 1.5;
 %
 play_sim = 1;
 % run simulations
@@ -178,6 +178,24 @@ plot(tau);
 hold on
 plot(q2);
 plot(q2dot);
+
+error = pi/6*atan(q1dot)-q2;
+q2_ref  = pi/6*atan(q1dot);
+
+% Figure 12
+figure(12);
+plot(timestep.*step_size,q1, '-', 'LineWidth',2)
+hold on
+grid on
+plot(timestep.*step_size,q2, '-', 'LineWidth',2);
+plot(timestep.*step_size,q1dot, '-', 'LineWidth',2)
+plot(timestep.*step_size,q2dot, '-', 'LineWidth',2);
+plot(timestep.*step_size,error, '-', 'LineWidth',2);
+plot(timestep.*step_size,q2_ref, '-', 'LineWidth',2);
+legend('q2','q1','q1dot','q2dot','error: atan(q1dot) - q2', 'q2_{ref}')
+
+
+
 
 % figure(5)
 % plot(q2,q1);

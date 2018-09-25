@@ -6,19 +6,18 @@
 clear all;
 run('variables');
 
-Ib=Ia;
 A = (Ia+Ib+m2*l2^2+m2*L1^2+2*m2*l2*L1); % theta dotdot
 B = (Ib+m2*l2^2+m2*L1*l2);              % phi dotdot
 C = (-m1*g*l1-m2*g*L1-m2*g*l2);         % theta
 D = (-m2*g*l2);                         % phi
-E =0.005;                               % theta dot
+E =9.1302e-04;                               % theta dot
 
 F = (Ib+m2*l2^2+m2*L1*l2);              % theta dotdot
 G = (Ib+m2*l2^2);                       % phi dotdot
 H = (-m2*g*l2);                         % theta 
 I = (-m2*g*l2);                         % phi
-J = 0.005;                               % phi dot
-K = -0.005;                              % theta dot
+J = 1.5000;                               % phi dot
+K = -9.1302e-04;;                              % theta dot
 
 AA = (F-A*G/B);     % theta dotdot
 BB = (-E*G/B-K);    % theta dot
