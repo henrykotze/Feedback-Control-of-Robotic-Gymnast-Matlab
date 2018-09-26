@@ -1,15 +1,23 @@
-%% Determine zeta's for response
-% Script allows you to select the peaks of the response and assuming a
-% exponential decaying function it will determine the best zeta values
-% based on linear regression
+%% Verifying Responses
+% Choose dampned natural frequency and zeta
+% and the  approximated reponses will be plotted
+% on measured data
+
 close all;
 clear all;
+
 % Requires natural frequency for responses, determine in data_aquisition.m
-q1_wd = 3.975275*2*pi;
-q2_wd = 1.5*2*pi;
+% and determine_zeta.m
 
+q1_wd = 3.975275*2*pi; %  [rad/s] dampned natural frequency of q1 response 
+zeta_1 = 1.7504e-05    % zeta for q1 response
+q1_wn = q1_wd/(sqrt(1-zeta_1^2)); %   [rad/s] natural frequency for q1 response
 
-% file name for q1 from the 
+q2_wd = 3*2*pi; %  [rad/s] dampned natural frequency of q2 response 
+zeta_2 = 0.25;   % zeta for q2 response
+q2_wn = q2_wd/(sqrt(1-zeta_2^2)) %  [rad/s] natural frequency for q1 response
+
+% file name for q1
 file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response6.csv';
 % file name for q2
 file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response2.csv';
@@ -57,8 +65,9 @@ q2(j) = 0;
 q1 = smooth(q1);
 q2 = smooth(q2);
 
-%  Response for q1
-% figure(1);
+
+%% q1 response
+figure(1);
 plot(time_q1,q1,'.r');
 title('System Response from Initial Conditions with $\phi = 0 $ ','Interpreter','latex','FontSize',12)
 yticks([-2*pi -pi 0 pi 2*pi]);
@@ -73,27 +82,18 @@ yt = get(gca, 'YTick');
 set(gca, 'FontSize', 12);
 hold on
 
-% select 10 first peaks to determine best fit zeta
-[x_q11,y_q11] = ginput(10);
-fit = polyfit(x_q11(1:end), log(-1.*y_q11),1);
 
-zeta_11 = sqrt( 1/(1+ q1_wd^2/fit(1)^2) );
-q1_wn = q1_wd/sqrt(1-zeta_11^2);
-disp('Zeta value for q1 response:');
-disp(zeta_11);
-disp('Natural Frequency from q1 response:');
+time_q1 = linspace(0,3.5,10000);
+approximate_response = -pi/2*exp(-1.*zeta_1.*q1_wn.*time_q1*1000).*(cos(q1_wd.*time_q1));
 
-
-% zeta_11 = fit(1)./(-q1_wn)
-A_11 = exp(fit(2))
-plot(time_q1, A_11.*exp(-1*zeta_11*q1_wn*time_q1),'-b','LineWidth',2);
-legend('Experimental results', 'Approximated decay function');
+plot(time_q1.*1000, approximate_response,'-b','LineWidth',1);
+hold on
+plot(time_q1.*1000, -pi/2.*exp(-1*zeta_1*q1_wn*time_q1.*1000),'-g','LineWidth',2);
+legend('Expertimental Data', 'Approximated Response','Approximated Decay Function')
 
 
+%% q2 response
 
-%%
-
-% Response for q2
 figure(2)
 plot(time_q2,q2,'b.');
 title('System Response from Initial Conditions with $\theta = 0 $ ','Interpreter','latex','FontSize',12)
@@ -109,21 +109,10 @@ yt = get(gca, 'YTick');
 set(gca, 'FontSize', 12);
 hold on
 
-%
-%   [x_q2,y_q2] = ginput(3);
-% 
+time_q2 = linspace(0,0.5,1000);
+approximate_response = pi*exp(-1.*zeta_2.*q2_wn.*time_q2).*(cos(q2_wd.*time_q2));
 
- 
-% 
-% 
-%   fit = polyfit(x_q2(1:end), log(y_q2),1)
-% %
+plot(time_q2.*1000, approximate_response,'-r','LineWidth',1);
 
-zeta_2 =sqrt( 1/( 1+ q2_wd^2/fit(1)^2 ) )
-zeta_2=0.85;
-q2_wn = q2_wd/sqrt(1-zeta_2^2)
-A_2 = exp(fit(2))
-% 
-
-plot(time_q2+200, pi.*exp(-1*zeta_2*q2_wn.*time_q2));
-
+plot(time_q2.*1000, pi.*exp(-1*zeta_2*q2_wn*time_q2),'-g','LineWidth',2);
+legend('Expertimental Data', 'Approximated Response','Approximated Decay Function')

@@ -52,9 +52,9 @@ L = T+V;
 % Langarange Energy Principle
 figure(5)
 plot(L);
-title('Mechanical Energy in the System');
-xlabel('Time -[s]');
-ylabel('Mechanical Energy');
+title('Mechanical Energy in the System','Interpreter','latex','FontSize',12);
+xlabel('Time -[s]','Interpreter','latex','FontSize',12);
+ylabel('Mechanical Energy','Interpreter','latex','FontSize',12);
 
 % figure(100);
 % plot(q2dot,q2);
@@ -262,12 +262,9 @@ if play_sim == 1
     end
 end
 
- close(v);
+if play_sim == 1
+    close(v);
+end
 disp('Simulation Finished');
-
-% close all;
-
-% animation = figure();
-% movie(animation,F,2);
 
 
