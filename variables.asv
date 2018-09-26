@@ -1,37 +1,38 @@
 %% Constants for systems
 
-g = 9.81;                          %      [kg/s^2] gravity 
-L1 = 0.235;                       %     [m] Total lenght of pendulum 1
-L2 = 0.245;                       %     [m] Total lenght of pendulum 2
+g = 9.81;                                      % [kg/s^2] gravity 
+L1 = 0.235;                                   % [m] Total lenght of non actuated pendulum 
+L2 = 0.245;                                   % [m] Total lenght of actuated pendulum 
+point_mass = 242e-3+190e-3;      % [kg] motor mass + gearbox mass
+l1 = L1;                                         % [m] lenght to mass middle point of pendulum 1 from shoulder
+l2 = L2/2;                                      % [m] lenght to mass middle point of pendulum 2 from elbow
+
+density_p2 = 7874;                         % [kg/m^3] density of iron
+volume_p2 = 0.01*0.01*L2;             % [m^3] Volume of actuaded pendulum
+m2 = density_p2*volume_p2;          % [kg] Mass of pendulum 2
+
+% Inertia of actuated pendulum from elbow
+Ib = 1/12*m2*(0.01^2+L2^2)+m2*(l2)^2; 
+
+% inertia of actuated pendulum from shoulder
+i2 = 1/12*m2*(0.01^2+L2^2)  + m2*(L1+L2/2)^2; 
 
 
-% density of iron
-p2 = 7150; % kg/m^3
-volume_p2 = 0.01*0.01*0.245;     % [m^3] Volume of actuaded pendulum
-m2 = p2*volume_p2;                  % [kg] Mass of pendulum 2
-Ib = 1/12*m2*(0.01^2+0.01^2);
 
-
-% density of Aluminium
-p1 = 2700; % kg/m^3
+density_p1 = 2700;                          % kg/m^3 density of Aluminium
 % Volume of Cylinder
-volume_cyl = 0.235*0.15*0.15;
+volume_cyl = L1*0.012*0.012;
 % mass of cylinder
-m_cylinder = volume_cyl*p1;
+m_cylinder = volume_cyl*density_p1;
 % Moment of Inertia of cylinder
-I_cyl = 1/12*(3*(0.006^4-0.005^4)+0.25^2*(0.006^2-0.005^2) );
+I_cyl = 1/12*m_cylinder*(0.012^2+L1^2) + m_cylinder*(L1/2)^2;
+
+m1 = m_cylinder + point_mass;  % [kg] mass of pendulum 1
+
+Ia = point_mass*L1^2+I_cyl;       %  Inertia of Pendulum 1 from shoulder
 
 
-% mass of motor
-motor_mass = 242e-3+190-3; % [kg] motor mass + gearbox mass [kg]
-
-
-
-m1 = volume_cyl*p1 + motor_mass;  % [kg] mass of pendulum 1
-m2 = p2*volume_p2;         % [kg] Mass of pendulum 2
-l1 = L1;                            % [m] lenght to mass middle point of pendulum 1 from shoulder
-l2 = L2/2;                         % [m] lenght to mass middle point of pendulum 2 from elbow
-
-Ia = motor_mass*L1^2+I_cyl       % [kg mm^4] Inertia of Pendulum 1 from shoulder
-
-Ib = 1/12*m2*(0.01^2+0.01^2)   % [kg mm^4] Inertia of Pendulum 2 from elbow
+I = Ia+i2
+L = (L1+L1)/2
+m = m1+m2;
+omega = sqrt( (L*g*m)/I )

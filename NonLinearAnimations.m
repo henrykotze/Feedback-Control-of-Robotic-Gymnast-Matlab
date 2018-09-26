@@ -206,11 +206,11 @@ legend('q2','q1','q1dot','q2dot','error: atan(q1dot) - q2', 'q2_{ref}')
 %% NEW Version
 if play_sim == 1
 
-    prompt = 'Play Simulation: [yes == 1 / no == 0]?:'
+    prompt = 'Play Simulation: [yes == 1 / no == 0]?:';
     reply = input(prompt);
     if reply == 1
 
-        prompt = 'Starting time: '
+        prompt = 'Starting time: ';
         time_start = input(prompt);
 
         P0 = [0 0];

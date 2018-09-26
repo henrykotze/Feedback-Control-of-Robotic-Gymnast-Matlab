@@ -6,7 +6,7 @@
 % time,q1,q2,tau
 
 % file name for q1
-file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response6.csv';
+file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\original dataset\q1_response6.csv';
 % file name for q2
 file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response2.csv';
 
@@ -24,6 +24,7 @@ time_q2 = system_info_q2(1:end,1);
 
 % q1 response
 q1 = (system_info_q1(1:end,2)-1570).*0.00153;
+
 
 % q2 response
 q2 = system_info_q2(1:end,3).*0.01570796326/2;
