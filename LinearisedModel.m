@@ -4,20 +4,20 @@
 % for a given start conditions 
 
 clear all;
-run('variables');
+run('system_variables');
 
 A = (Ia+Ib+m2*l2^2+m2*L1^2+2*m2*l2*L1); % theta dotdot
 B = (Ib+m2*l2^2+m2*L1*l2);              % phi dotdot
 C = (-m1*g*l1-m2*g*L1-m2*g*l2);         % theta
 D = (-m2*g*l2);                         % phi
-E =9.1302e-04;                               % theta dot
+E =f1;                               % theta dot
 
 F = (Ib+m2*l2^2+m2*L1*l2);              % theta dotdot
 G = (Ib+m2*l2^2);                       % phi dotdot
 H = (-m2*g*l2);                         % theta 
 I = (-m2*g*l2);                         % phi
-J = 1.5000;                               % phi dot
-K = -9.1302e-04;;                              % theta dot
+J = f2;                               % phi dot
+K = -f2;                              % theta dot
 
 AA = (F-A*G/B);     % theta dotdot
 BB = (-E*G/B-K);    % theta dot
@@ -42,7 +42,7 @@ A_ = [   0,0,1,0;
         0,0,0,1;
         -DD/AA,-EE/AA,-BB/AA,-CC/AA;
         -II/FF,-JJ/FF,-GG/FF,-HH/FF
-     ];
+     ]
 B = [0;0;1/AA;1/FF] ;
 C = eye(4);
 D = [0;0;0;0];
@@ -50,18 +50,13 @@ D = [0;0;0;0];
 P = eig(A_)
 % 
 sys = ss(A_,B,C,D);
-tfsys = tf(sys);
-pzmap(sys);
+% tfsys = tf(sys);
+% pzmap(sys);
 poles_system = pole(sys);
-zeros_system = tzero(sys);
 
 % poles of system
 disp('Poles of the system is:');
 disp(poles_system);
-
-% zeros of system
-disp('Zeros of the system:');
-disp(zeros_system);
 
 %% 4th order Bessel polynomials
 % -4.0156+-j5.0723,-5.5281+-j3.0813;
@@ -75,15 +70,16 @@ disp(zeros_system);
 
 %% Dominant Poles
 % 
- pc = [    -15.7911;
-    -13.6286;
-   -6.2262
-   -3.8406];
+pc = [    -8.8208
+   -4.3594
+    -8.8208
+    -4.3594
+];
 K = acker(A_,B,pc)
 % pzmap(new_sys)
 
 %% Simulating Linear Controller on Linearised System
- q_start = [0;-pi/60;0;0];
+ q_start = [pi/80;-pi/60;0;0];
  motor_stall_torque = 2.8;
 % initial(sys,q_start)
 % 
@@ -120,7 +116,7 @@ q2 = getsamples(q,2);
 figure(2)
 plot(tau);
 title('Torque During Response with starting conditions $q_{0}$','Interpreter','latex');
-xlabel('Time -[s]','Interpreter','latex','FontSize',12);
-ylabel('$\tau$ -[N\m]','Interpreter','latex','FontSize',12);
+xlabel('Time [s]','Interpreter','latex','FontSize',12);
+ylabel('$\tau$ [N\\m]','Interpreter','latex','FontSize',12);
 text(time-0.5,pi, '$q_{0}$ = $[\phi+\frac{pi}{8},0,0,0]$','Interpreter','latex','FontSize',12);
 grid on;

@@ -3,15 +3,15 @@
 clear all;
 close all;
 % fetch variables of systems
-run('variables');
+run('system_variables');
 %% time step for simulation
 step_size = 0.001;          % time step
-time = 50;                  % time lenght of the simulation
+time = 30;                  % time lenght of the simulation
 %% initial condition:
-theta_start = pi/8;            % [rad]
+theta_start = 0;            % [rad]
 phi_start = 0;              % [rad]
-theta_dot_start = -0.0;      % [rad/s]
-phi_dot_start = 0.0;       % [rad/s]
+theta_dot_start = 0.0;      % [rad/s]
+phi_dot_start = -0.5;       % [rad/s]
 state = 0;
 
 %% Simulation constants
@@ -20,14 +20,14 @@ Kd = 12.7;
 angle_restrict = pi/1.5;
 % region_1 = pi/40;
 % region_2 = pi/20;
-region_1 = pi/5;
-region_2 = pi/2.5;
+region_1 = pi/50;
+region_2 = pi/50;
 encoder_resolution = 1/986;
 ADC_resolution = 1/4095;
 
 %%
 % Saturation
-motor_stall_torque = 1.5;
+motor_stall_torque = 8;
 %
 play_sim = 1;
 % run simulations
@@ -59,7 +59,7 @@ ylabel('Mechanical Energy','Interpreter','latex','FontSize',12);
 % figure(100);
 % plot(q2dot,q2);
 % hold on
-plot(q2dotdot);
+% plot(q2dotdot);
 % plot(q1dot,q1);
 % plot(q1dotdot);
 
@@ -262,7 +262,7 @@ if play_sim == 1
     end
 end
 
-if play_sim == 1
+if reply == 1
     close(v);
 end
 disp('Simulation Finished');

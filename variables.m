@@ -30,3 +30,12 @@ m1 = m_p1 + point_mass;               % [kg] total mass of non actuated pendulum
 
 Ia = point_mass*L1^2+I_p2;             %  Inertia of  non actuated pendulum
 
+
+m1 = 0.5763;                            % [kg] non-actuated pendulum + motor 
+m2 = 0.18585 + 0.30692;         % [kg] actuated pendulum and point weight
+
+
+
+
+
+
