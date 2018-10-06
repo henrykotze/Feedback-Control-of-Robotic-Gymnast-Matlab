@@ -70,10 +70,10 @@ disp(poles_system);
 
 %% Dominant Poles
 % 
-pc = [    -8.8208
-   -4.3594
-    -8.8208
-    -4.3594
+pc = [    -8.7724
+    -4.3484
+   -8.8698
+   -4.370
 ];
 K = acker(A_,B,pc)
 % pzmap(new_sys)

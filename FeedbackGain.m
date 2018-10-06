@@ -18,23 +18,23 @@ pc = [    -8.8208
 % m1 = 1;
 % m2 = 1;
 % L1 = 1;
-% L2 = 2;
-% l1 = 0.5;
+% L2 = 1;
+% l1 = 1;
 % l2 = 1;
-% Ia = 0.0833;
-% Ib = 0.333;
-% g=9.8;
+% Ia = 1;
+% Ib = 1;
+% g=9.81;
 
-A = (Ia+Ib+m2*l2^2+m2*L1^2+2*m2*l2*L1); % theta dotdot
-B = (Ib+m2*l2^2+m2*L1*l2);              % phi dotdot
-C = (-m1*g*l1-m2*g*L1-m2*g*l2);         % theta
+A = (m2*l2^2 + m2*L1^2 + 2*m2*l2*L1+ m1*l1^2 + Ia + Ib); % theta dotdot
+B = (m2*l2^2 + m2*L1*l2 + Ib);              % phi dotdot
+C = (-m1*g*l1 -m2*g*L1 - m2*g*l2);         % theta
 D = (-m2*g*l2);                         % phi
 E =f1;                               % theta dot
 
-F = (Ib+m2*l2^2+m2*L1*l2);              % theta dotdot
-G = (Ib+m2*l2^2);                       % phi dotdot
+F = (m2*l2^2 + m2*L1*l2+ Ib);              % theta dotdot
+G = (m2*l2^2 + Ib);                       % phi dotdot
 H = (-m2*g*l2);                         % theta 
-I = (-m2*g*l2);                         % phi
+I =  (-m2*g*l2);                         % phi
 J = f2;                               % phi dot
 K = -f2;                              % theta dot
 

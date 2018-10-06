@@ -2,13 +2,15 @@
 % Plots the time responses of the data and does FFT to indicate the natural
 % frequencies
 
+close all ;
+clear all;
 % Data structure within .csv file:
 % time,q1,q2,tau
 
 % file name for q1
-file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\original dataset\q1_response6.csv';
+file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response1.csv';
 % file name for q2
-file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response2.csv';
+file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response1.csv';
 
 % time increments
 time_steps = 1e-3;
@@ -23,7 +25,7 @@ time_q1 = system_info_q1(1:end,1);
 time_q2 = system_info_q2(1:end,1);
 
 % q1 response
-q1 = (system_info_q1(1:end,2)-1570).*0.00153;
+q1 = (system_info_q1(1:end,2)-2195).*0.00153;
 
 
 % q2 response
@@ -36,6 +38,7 @@ q1dot = cent_diff_n(q1,time_steps,3);
 q2dot = cent_diff_n(q2,time_steps,3);
 q1dotdot = cent_diff_n(q1dot,time_steps,3);
 q2dotdot = cent_diff_n(q2dot,time_steps,3);
+
 
 %% Data Cleaning
 % Removing points outside boundary:
@@ -76,7 +79,7 @@ plot(time_q2,q2,'b.');
 title('System Response from Initial Conditions with $\theta = 0 $ ','Interpreter','latex','FontSize',12)
 yticks([-2*pi -pi 0 pi 2*pi]);
 ylabel('$\phi$ [rad]','Interpreter','latex','FontSize',12);
-xlabel('time [ms]','Interpreter','latex','FontSize',12);
+xlabel('Time [ms]','Interpreter','latex','FontSize',12);
 yticklabels({'-1.5\pi','-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi'})
 yticks([-1.5*pi -1*pi -0.5*pi 0 0.5*pi 1*pi 1.5*pi]);
 grid on
@@ -95,7 +98,7 @@ abs_fft_q2 = abs(fft(q2));
 
 % found from: https://www.mathworks.com/help/matlab/ref/fft.html
 
-Fs = 1000;          % sampling rate
+Fs = 250;          % sampling rate
 T = 1/Fs;
 L_q1 = length(time_q1);         % number of samples taken
 time_q1=time_q1./1000;      % convert time_q1 from [ms] to [s]

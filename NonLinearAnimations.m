@@ -6,12 +6,12 @@ close all;
 run('system_variables');
 %% time step for simulation
 step_size = 0.001;          % time step
-time = 30;                  % time lenght of the simulation
+time = 30;                      % time lenght of the simulation
 %% initial condition:
-theta_start = 0;            % [rad]
+theta_start = pi/30;            % [rad]
 phi_start = 0;              % [rad]
 theta_dot_start = 0.0;      % [rad/s]
-phi_dot_start = -0.5;       % [rad/s]
+phi_dot_start = 0.0;       % [rad/s]
 state = 0;
 
 %% Simulation constants
@@ -21,7 +21,7 @@ angle_restrict = pi/1.5;
 % region_1 = pi/40;
 % region_2 = pi/20;
 region_1 = pi/50;
-region_2 = pi/50;
+region_2 = pi/5;
 encoder_resolution = 1/986;
 ADC_resolution = 1/4095;
 
@@ -114,9 +114,9 @@ plot(timestep.*step_size,q1, '-', 'LineWidth',2)
 hold on
 grid on
 plot(timestep.*step_size,q2, '-', 'LineWidth',2);
-title('\textbf{Angular Position of Double Pendulum during Swing-up}','Interpreter','latex','FontSize',12)
-ylabel('\textbf{$\phi$ and $\theta$ [rad]}','Interpreter','latex','FontSize',12);
-xlabel('time [s]','Interpreter','latex','FontSize',12);
+title('Angular Position of Double Pendulum during Swing-up \& Balance','Interpreter','latex','FontSize',12)
+ylabel('$\phi$ and $\theta$ [rad]','Interpreter','latex','FontSize',12);
+xlabel('Time [s]','Interpreter','latex','FontSize',12);
 legend({'$\theta$','$\phi$'},'Interpreter','latex','FontSize',12)
 yticks([-2*pi -1.5*pi -pi -0.5*pi 0 0.5*pi pi 1.5*pi 2*pi]);
 yticklabels({'-2\pi', '-1.5\pi', '-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi','2\pi'})
@@ -193,8 +193,6 @@ plot(timestep.*step_size,q2dot, '-', 'LineWidth',2);
 plot(timestep.*step_size,error, '-', 'LineWidth',2);
 plot(timestep.*step_size,q2_ref, '-', 'LineWidth',2);
 legend('q2','q1','q1dot','q2dot','error: atan(q1dot) - q2', 'q2_{ref}')
-
-
 
 
 % figure(5)

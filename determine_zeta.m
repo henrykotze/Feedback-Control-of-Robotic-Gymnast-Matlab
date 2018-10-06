@@ -5,14 +5,14 @@
 close all;
 clear all;
 % Requires natural frequency for responses, determine in data_aquisition.m
-q1_wd = 3.975275*2*pi;
-q2_wd = 1.5*2*pi;
+q1_wd = 3.62902*2*pi;
+q2_wd = 4.03*2*pi;
 
 
 % file name for q1 from the 
-file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response6.csv';
+file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response1.csv';
 % file name for q2
-file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response2.csv';
+file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response5.csv';
 
 % time increments
 time_steps = 1e-3;
@@ -27,7 +27,7 @@ time_q1 = system_info_q1(1:end,1);
 time_q2 = system_info_q2(1:end,1);
 
 % q1 response
-q1 = (system_info_q1(1:end,2)-1570).*0.00153;
+q1 = (system_info_q1(1:end,2)-2195).*0.00153;
 
 % q2 response
 q2 = system_info_q2(1:end,3).*0.01570796326/2;
@@ -74,8 +74,8 @@ set(gca, 'FontSize', 12);
 hold on
 
 % select 10 first peaks to determine best fit zeta
-[x_q11,y_q11] = ginput(10);
-fit = polyfit(x_q11(1:end), log(-1.*y_q11),1);
+[x_q11,y_q11] = ginput(8);
+fit = polyfit(x_q11(1:end), log(y_q11),1)
 
 zeta_11 = sqrt( 1/(1+ q1_wd^2/fit(1)^2) );
 q1_wn = q1_wd/sqrt(1-zeta_11^2);
@@ -110,20 +110,20 @@ set(gca, 'FontSize', 12);
 hold on
 
 %
-%   [x_q2,y_q2] = ginput(3);
+[x_q2,y_q2] = ginput(5);
 % 
 
  
 % 
 % 
-%   fit = polyfit(x_q2(1:end), log(y_q2),1)
+   fit = polyfit(x_q2(1:end), log(y_q2),1)
 % %
 
 zeta_2 =sqrt( 1/( 1+ q2_wd^2/fit(1)^2 ) )
-zeta_2=0.85;
+%zeta_2=0.85;
 q2_wn = q2_wd/sqrt(1-zeta_2^2)
 A_2 = exp(fit(2))
 % 
 
-plot(time_q2+200, pi.*exp(-1*zeta_2*q2_wn.*time_q2));
+plot(time_q2,A_2.*exp(-1*zeta_2*q2_wn.*time_q2));
 
