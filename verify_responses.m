@@ -9,11 +9,11 @@ clear all;
 % Requires natural frequency for responses, determine in data_aquisition.m
 % and determine_zeta.m
 
-q1_wd = 3.62902*2*pi; %  [rad/s] dampned natural frequency of q1 response 
-zeta_1 = 1.4602e-05    % zeta for q1 response
+q1_wd = 0.906702*2*pi; %  [rad/s] dampned natural frequency of q1 response 
+zeta_1 = 0.0130;    % zeta for q1 response
 q1_wn = q1_wd/(sqrt(1-zeta_1^2)); %   [rad/s] natural frequency for q1 response
 
-q2_wd = 4.03*2*pi; %  [rad/s] dampned natural frequency of q2 response 
+q2_wd = 1.08128*2*pi; %  [rad/s] dampned natural frequency of q2 response 
 zeta_2 = 5.85184e-5;   % zeta for q2 response
 q2_wn = q2_wd/(sqrt(1-zeta_2^2)) %  [rad/s] natural frequency for q2 response
 
@@ -30,9 +30,9 @@ system_info_q1 = csvread(file_name_q1,2);
 system_info_q2 = csvread(file_name_q2,2);
 
 % time for q1
-time_q1 = system_info_q1(1:end,1);
+time_q1 = system_info_q1(1:end,1)./1000;
 % time for q2
-time_q2 = system_info_q2(1:end,1);
+time_q2 = system_info_q2(1:end,1)./1000;
 
 % q1 response
 q1 = (system_info_q1(1:end,2)-2195).*0.00153;

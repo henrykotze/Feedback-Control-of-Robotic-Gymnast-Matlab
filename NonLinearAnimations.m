@@ -5,29 +5,27 @@ close all;
 % fetch variables of systems
 run('system_variables');
 %% time step for simulation
-step_size = 0.001;          % time step
-time = 30;                      % time lenght of the simulation
+step_size = 0.0001;          % time step
+time = 35;                      % time lenght of the simulation
 %% initial condition:
-theta_start = pi/30;            % [rad]
-phi_start = 0;              % [rad]
+theta_start = 0.2;            % [rad]
+phi_start = 0.0;              % [rad]
 theta_dot_start = 0.0;      % [rad/s]
 phi_dot_start = 0.0;       % [rad/s]
-state = 0;
+state = 4;
 
 %% Simulation constants
 Kp = 58;
-Kd = 12.7;
-angle_restrict = pi/1.5;
-% region_1 = pi/40;
-% region_2 = pi/20;
-region_1 = pi/50;
-region_2 = pi/5;
-encoder_resolution = 1/986;
+Kd = 14;
+angle_restrict = pi/4;
+region_1 = pi/250;
+region_2 = pi/8;
+encoder_resolution = 1/896;
 ADC_resolution = 1/4095;
 
 %%
 % Saturation
-motor_stall_torque = 8;
+motor_stall_torque = 6;
 %
 play_sim = 1;
 % run simulations
@@ -55,17 +53,6 @@ plot(L);
 title('Mechanical Energy in the System','Interpreter','latex','FontSize',12);
 xlabel('Time -[s]','Interpreter','latex','FontSize',12);
 ylabel('Mechanical Energy','Interpreter','latex','FontSize',12);
-
-% figure(100);
-% plot(q2dot,q2);
-% hold on
-% plot(q2dotdot);
-% plot(q1dot,q1);
-% plot(q1dotdot);
-
-
-
-
 
 % Point B: [x,y] positions for elbow
 pointB = [L1*sin(q1), -L1*cos(q1)];
@@ -114,13 +101,13 @@ plot(timestep.*step_size,q1, '-', 'LineWidth',2)
 hold on
 grid on
 plot(timestep.*step_size,q2, '-', 'LineWidth',2);
-title('Angular Position of Double Pendulum during Swing-up \& Balance','Interpreter','latex','FontSize',12)
+title('Angular Position of Robotic Gymnast during Swing-up \& Balancing','Interpreter','latex','FontSize',12)
 ylabel('$\phi$ and $\theta$ [rad]','Interpreter','latex','FontSize',12);
 xlabel('Time [s]','Interpreter','latex','FontSize',12);
 legend({'$\theta$','$\phi$'},'Interpreter','latex','FontSize',12)
 yticks([-2*pi -1.5*pi -pi -0.5*pi 0 0.5*pi pi 1.5*pi 2*pi]);
 yticklabels({'-2\pi', '-1.5\pi', '-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi','2\pi'})
-
+% plot(timestep.*step_size,tau_state,'LineWidth',2);
 
 figure(6)
 plot(timestep.*step_size,tau_state,'LineWidth',4);
@@ -193,6 +180,37 @@ plot(timestep.*step_size,q2dot, '-', 'LineWidth',2);
 plot(timestep.*step_size,error, '-', 'LineWidth',2);
 plot(timestep.*step_size,q2_ref, '-', 'LineWidth',2);
 legend('q2','q1','q1dot','q2dot','error: atan(q1dot) - q2', 'q2_{ref}')
+
+
+% Figure 13
+% figure(13)
+% Fs = 1/step_size;          % sampling rate
+% T = 1/Fs;
+% L_q1 = length(timestep.*step_size);         % number of samples taken
+% time_q1=timestep.*step_size;      
+% Y_q1 = fft(q1);                     % FFT of response
+% P2_q1 = abs(Y_q1);              % absolute value of FFT 
+% P1_q1 = P2_q1(1:L_q1/2+1);
+% P1_q1(2:end-1) = 2*P1_q1(2:end-1);
+% f_q1 = Fs*(0:(L_q1/2))/L_q1;
+% 
+% L_q2 = length(timestep.*step_size);
+% time_q2=timestep.*step_size;
+% Y_q2 = fft(q2);
+% P2_q2 = abs(Y_q2);
+% P1_q2 = P2_q2(1:L_q2/2+1);
+% P1_q2(2:end-1) = 2*P1_q2(2:end-1);
+% f_q2 = Fs*(0:(L_q2/2))/L_q2;
+% plot(f_q1(1:80),P1_q1(1:80),'-*r', 'LineWidth',2) 
+% grid on
+% hold on
+% plot(f_q2(1:80),P1_q2(1:80),'-*b', 'LineWidth',2)
+% title('Frequency Content of Initial Condition System Responses','Interpreter','latex','FontSize',12)
+% ylabel('Magnitude ','Interpreter','latex','FontSize',12);
+% xlabel('Frequency [Hz]','Interpreter','latex','FontSize',12);
+% legend({'System Response with $\phi = 0$ rad','System Response with  $\theta = 0$ rad'},'Interpreter','latex','FontSize',12)
+
+
 
 
 % figure(5)

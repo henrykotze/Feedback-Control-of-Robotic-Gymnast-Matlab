@@ -8,22 +8,13 @@ run('system_variables');
 
 
 % Desired Poles: Bessel Prototype
-pc = [    -8.8208
-   -4.3594
-    -8.8208
-    -4.3594
+pc = [   -10.5742
+    -4.9498
+  -11.4905
+   -5.0215
 ];
 
-% % test variables from articl
-% m1 = 1;
-% m2 = 1;
-% L1 = 1;
-% L2 = 1;
-% l1 = 1;
-% l2 = 1;
-% Ia = 1;
-% Ib = 1;
-% g=9.81;
+
 
 A = (m2*l2^2 + m2*L1^2 + 2*m2*l2*L1+ m1*l1^2 + Ia + Ib); % theta dotdot
 B = (m2*l2^2 + m2*L1*l2 + Ib);              % phi dotdot
