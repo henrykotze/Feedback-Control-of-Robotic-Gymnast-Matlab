@@ -2,13 +2,13 @@
 clear all;
 close all;
 % fetch variables of systems
-run('system_variables');
+run('FeedbackGain');
 %% time step for simulation
 step_size = 0.001;          % time step
-time = 8;                      % time lenght of the simulation
+time = 30;                      % time lenght of the simulation
 %% initial condition:
-theta_start = 0;%-0.545;            % [rad]
-phi_start = -1.502;              % [rad]
+theta_start = 0.6781;            % [rad]
+phi_start = 0;%-1.492;             % [rad]
 theta_dot_start = 0.0;      % [rad/s]
 phi_dot_start = 0.0;       % [rad/s]
 state = 0;
@@ -43,9 +43,9 @@ q2_wd = 1.08128*2*pi;
 
 
 % file name for q1 from the 
-file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response1.csv';
+file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response2.csv';
 % file name for q2
-file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response5.csv';
+file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response2.csv';
 
 % time increments
 time_steps = 1e-3;
@@ -60,7 +60,7 @@ time_q1 = system_info_q1(1:end,1)./1000;
 time_q2 = system_info_q2(1:end,1)./1000;
 
 % q1 response
-q1 = (system_info_q1(1:end,2)-2195).*0.00153;
+q1 = (system_info_q1(1:end,2)-2395).*0.00153;
 
 % q2 response
 q2 = system_info_q2(1:end,3).*0.01570796326/2;
@@ -91,34 +91,33 @@ q2 = smooth(q2);
 
 % theta angle
 figure(1)
-plot(timestep.*step_size,q1_sim, '-r', 'LineWidth',2)
-title('Measured Response vs Simulation Response of Initial Condition Test with $\phi$  ','Interpreter','latex','FontSize',12)
-yticks([-2*pi -pi 0 pi 2*pi]);
-ylabel('$\theta$ -[rad]','Interpreter','latex','FontSize',12);
-xlabel('Time [s]','Interpreter','latex','FontSize',12);
-yticklabels({'-1.5\pi','-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi'})
-yticks([-1.5*pi -1*pi -0.5*pi 0 0.5*pi 1*pi 1.5*pi]);
+plot(time_q1,q1.*180/pi,'-b','LineWidth',2);
 grid on
 hold on
-
-plot(time_q1,q1,'-b','LineWidth',2);
-legend({'Measure Response','Simulation Response'},'Interpreter','latex','FontSize',12)
+plot(timestep.*step_size,q1_sim.*180/pi, '-r', 'LineWidth',2)
+title('Measured Response vs Simulated Response of Initial Condition Test  with $$\phi = 0$$ ','Interpreter','latex','FontSize',12)
+yticks([-2*pi -pi 0 pi 2*pi]);
+ylabel('$\theta$ [Degrees]','Interpreter','latex','FontSize',12);
+xlabel('Time [s]','Interpreter','latex','FontSize',12);
+yticklabels({'-50','-40','-30','-20','-10','0','10','20','30','40','50'})
+yticks([-50 -40 -30 -20 -10 0 10 20 30 40 50]);
+legend({'Measured Response','Simulated Response'},'Interpreter','latex','FontSize',12)
 
 
 
 
 % \phi angle 
 figure(2)
-plot(timestep.*step_size,q2_sim, '-b', 'LineWidth',1);
-title('$\phi$ with respect to time ','Interpreter','latex','FontSize',12)
-ylabel('$\phi$ [rad]','Interpreter','latex','FontSize',12);
-xlabel('time [s]','Interpreter','latex','FontSize',12);
-yticks([-1.5*pi -pi -0.5*pi 0 0.5*pi pi 1.5*pi]);
-yticklabels({'-1.5\pi', '-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi'})
+plot(time_q2,q2.*180/pi,'-r','LineWidth',2);
 grid on
 hold on
-
-plot(time_q2,q2,'-r','LineWidth',2);
+plot(timestep.*step_size,q2_sim.*180/pi, '-b', 'LineWidth',2);
+title('Measured Response vs Simulated Response of Initial Condition Test  with $$\theta = 0$$','Interpreter','latex','FontSize',12)
+ylabel('$\phi$ [rad]','Interpreter','latex','FontSize',12);
+xlabel('time [s]','Interpreter','latex','FontSize',12);
+yticklabels({'-90','-80','-70','-60','-50','-40','-30','-20','-10','0','10','20','30','40','50','60','70','80','90'})
+yticks([-90 -80 -70 -60 -50 -40 -30 -20 -10 0 10 20 30 40 50 60 70 80 90]);
+legend({'Measured Response','Simulated Response'},'Interpreter','latex','FontSize',12)
 
 
 %% FFT for q1

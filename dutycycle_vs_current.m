@@ -9,7 +9,7 @@ motor_driver_ratio =375;
 Resistor = 150; % [Ohm]
 
 duty_cycle = 20:1:43;
-voltage = [42 58 69 88 110 120 140 154 180 203 222 240 265 304 320 355 370 400 422 470 490 533 547 578 ]./(Resistor).*motor_driver_ratio.*torque_constant.*gearbox_ratio;
+voltage = [42 58 69 88 110 120 140 154 180 203 222 240 265 304 320 355 370 400 422 470 490 533 547 578 ]./(1*Resistor).*motor_driver_ratio.*torque_constant.*gearbox_ratio;
 
 
 % [to do]

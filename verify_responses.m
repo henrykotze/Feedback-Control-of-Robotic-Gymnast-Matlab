@@ -1,7 +1,8 @@
-%% Verifying Responses
+%% verifiy_responses.m
 % Choose dampned natural frequency and zeta
 % and the  approximated reponses will be plotted
 % on measured data
+
 
 close all;
 clear all;
@@ -14,13 +15,13 @@ zeta_1 = 0.0130;    % zeta for q1 response
 q1_wn = q1_wd/(sqrt(1-zeta_1^2)); %   [rad/s] natural frequency for q1 response
 
 q2_wd = 1.08128*2*pi; %  [rad/s] dampned natural frequency of q2 response 
-zeta_2 = 5.85184e-5;   % zeta for q2 response
+zeta_2 = 0.0545;   % zeta for q2 response
 q2_wn = q2_wd/(sqrt(1-zeta_2^2)) %  [rad/s] natural frequency for q2 response
 
 % file name for q1
-file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q1_response1.csv';
+file_name_q1 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response1.csv';
 % file name for q2
-file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response2.csv';
+file_name_q2 = 'C:\Users\Henry\Desktop\Skripsie\Feedback-Control-of-Robotic-Gymnast-MCU\q2_response1.csv';
 
 % time increments
 time_steps = 1e-3;
@@ -98,25 +99,25 @@ plot(time_q1, approximate_response,'-b','LineWidth',1);
 % 
 % % q2 response
 % 
-% figure(2)
-% plot(time_q2,q2,'b.');
-% title('System Response from Initial Conditions with $\theta = 0 $ ','Interpreter','latex','FontSize',12)
-% yticks([-2*pi -pi 0 pi 2*pi]);
-% ylabel('$\phi$ [rad]','Interpreter','latex','FontSize',12);
-% xlabel('time [ms]','Interpreter','latex','FontSize',12);
-% yticklabels({'-1.5\pi','-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi'})
-% yticks([-1.5*pi -1*pi -0.5*pi 0 0.5*pi 1*pi 1.5*pi]);
-% grid on
-% xt = get(gca, 'XTick');
-% set(gca, 'FontSize', 12);
-% yt = get(gca, 'YTick');
-% set(gca, 'FontSize', 12);
-% hold on
-% 
-% time_q2 = linspace(0,0.5,1000);
-% approximate_response = pi*exp(-1.*zeta_2.*q2_wn.*time_q2).*(cos(q2_wd.*time_q2));
-% 
-% plot(time_q2.*1000, approximate_response,'-r','LineWidth',1);
-% 
-% plot(time_q2.*1000, pi.*exp(-1*zeta_2*q2_wn*time_q2),'-g','LineWidth',2);
-% legend('Expertimental Data', 'Approximated Response','Approximated Decay Function')
+figure(2)
+plot(time_q2.*1000,q2,'b.');
+title('System Response from Initial Conditions with $\theta = 0 $ ','Interpreter','latex','FontSize',12)
+yticks([-2*pi -pi 0 pi 2*pi]);
+ylabel('$\phi$ [rad]','Interpreter','latex','FontSize',12);
+xlabel('time [ms]','Interpreter','latex','FontSize',12);
+yticklabels({'-1.5\pi','-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi'})
+yticks([-1.5*pi -1*pi -0.5*pi 0 0.5*pi 1*pi 1.5*pi]);
+grid on
+xt = get(gca, 'XTick');
+set(gca, 'FontSize', 12);
+yt = get(gca, 'YTick');
+set(gca, 'FontSize', 12);
+hold on
+
+time_q2 = linspace(0,8,8000);
+approximate_response = -pi/2.*exp(-1.*zeta_2.*q2_wn.*time_q2).*(cos(q2_wd.*time_q2));
+
+plot(time_q2.*1000, approximate_response,'-r','LineWidth',1);
+
+plot(time_q2.*1000, -pi/2.*exp(-1*zeta_2*q2_wn*time_q2),'-g','LineWidth',2);
+legend('Expertimental Data', 'Approximated Response','Approximated Decay Function')

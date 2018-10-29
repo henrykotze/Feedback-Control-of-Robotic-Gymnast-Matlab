@@ -1,3 +1,4 @@
+%% variables.m
 %% Constants for systems
 
 g = 9.81;                                      % [kg/s^2] gravity 

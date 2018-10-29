@@ -1,4 +1,4 @@
-%% System variables
+%% system_variables.m
 
 clear all;
 close all;
@@ -10,16 +10,18 @@ g = 9.81;
 L1 = 0.235;
 
 % Lenght of actuated pendulum [m]
-L2 = 0.310;
+L2 = 0.303;
 
 % Lenght to point mass 2
-L2_pointmass = 0.27;
+% L2_pointmass = 0.27;
+L2_pointmass = 0.263;
 
 % lenght of cylindrical square in non-actuated pendulum [m]
 L_cyl = 0.235;
 
 % Lengt of iron rod in actuated pendulum [m]
-L_iron = 0.230;
+%L_iron = 0.230;
+L_iron = 0.223;
 
 % mass of cylindrical square in non-actuated pendulum [kg]
 m_cyl = 0.1443;
@@ -31,8 +33,8 @@ pointmass_1 = 242e-3+190e-3;
 m1 = pointmass_1 + m_cyl;
 
 % mass of actuated iron square [kg]
-m_iron = 0.18585;
-
+% m_iron = 0.18585;
+m_iron = 0.257;
 % mass of point mass on actuated pendulum [kg]
 pointmass_2 = 0.30692;
 
@@ -75,6 +77,21 @@ f2 = 0.0075;%.0028;
 % format long
 format short
 
+
+
+g = 9.81;
+Ia = 0.0022;
+Ib = 0.0043;
+L1 = 0.2350;
+L2 = 0.3100;
+l1 = 0.2056;
+l2 = 0.1940;
+m1 = 0.5763;
+m2 = 0.5639;
+f1 = 0.024;
+f2 = 0.013;
+
+
 disp('Ia');disp(Ia);
 disp('Ib');disp(Ib);
 disp('L1');disp(L1);
@@ -85,9 +102,6 @@ disp('m1');disp(m1);
 disp('m2');disp(m2);
 disp('f1');disp(f1);
 disp('f2');disp(f2);
-
-
-
 
 
 

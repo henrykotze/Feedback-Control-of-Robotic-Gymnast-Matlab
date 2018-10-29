@@ -7,20 +7,25 @@ run('FeedbackGain');
 
 
 %% Run simulation, and draw Graphs
-time = 20;
-theta_start = pi + pi/100;            % [rad]
-phi_start = 0;              % [rad]
+time =1.5;
+theta_start = pi+pi/50;            % [rad]
+phi_start = -pi/20;              % [rad]
 theta_dot_start = 0;        % [rad/s]
 phi_dot_start = 0;          % [rad/s]
 step_size = 0.001
-motor_stall_torque = 8;
+motor_stall_torque = 6;
+encoder_resolution = 1/896;
+ADC_resolution = 1/4095;
+%K = 0;
 sim('NonlinearModel_LinearController');
 
 
 
-q1_angle = get(q1_angle,'Data');
-q2_angle = get(q2_angle,'Data');
+q1_angle = get(q1_angle,'Data').*180/pi;
+q2_angle = get(q2_angle,'Data').*180/pi;
 tau = get(tau,'Data');
+q2dot = get(q2dot,'Data');
+q1dot = get(q1dot,'Data');
 
  
 pointB = [L1*sin(q1_angle), -L1*cos(q1_angle)];
@@ -36,7 +41,7 @@ timestep  = 1:1:size(pointB(1:end,1));
 figure(1)
 plot(timestep.*step_size,q2_angle, '.', 'LineWidth',1);
 title('$\phi$ with respect to time','Interpreter','latex','FontSize',12)
-ylabel('$\phi$ -[rad]','Interpreter','latex','FontSize',12);
+ylabel('$\phi$ -[Degrees]','Interpreter','latex','FontSize',12);
 xlabel('time -[s]','Interpreter','latex','FontSize',12);
 yticks([-1.5*pi -pi -0.5*pi 0 0.5*pi pi 1.5*pi]);
 yticklabels({'-1.5\pi', '-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi'})
@@ -47,20 +52,54 @@ figure(2)
 plot(timestep.*step_size,q1_angle, '.', 'LineWidth',1)
 title('$\theta$ with respect to time','Interpreter','latex','FontSize',12)
 yticks([-2*pi -pi 0 pi 2*pi]);
-ylabel('$\theta$ -[rad]','Interpreter','latex','FontSize',12);
+ylabel('$\theta$ -[Degrees]','Interpreter','latex','FontSize',12);
 xlabel('time -[s]','Interpreter','latex','FontSize',12);
 yticklabels({'-1.5\pi','-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi'})
 yticks([-1.5*pi -1*pi -0.5*pi 0 0.5*pi 1*pi 1.5*pi]);
 grid on
 
+% \theta and \phi
+figure(3)
+plot(timestep.*step_size,q1_angle, '-', 'LineWidth',2)
+hold on
+grid on
+plot(timestep.*step_size,q2_angle, '-', 'LineWidth',2);
+title('Angular Position of Robotic Gymnast during Balancing','Interpreter','latex','FontSize',12)
+ylabel('$\phi$ and $\theta$ [Degrees]','Interpreter','latex','FontSize',12);
+xlabel('Time [s]','Interpreter','latex','FontSize',12);
+legend({'$\theta$','$\phi$'},'Interpreter','latex','FontSize',12)
+yticks([-210 -180 -150 -120 -90 -60 -30 0 30 60 90 120 150 180 210]);
+yticklabels({'-210', '-180', '-150','-120','-90i','-60','-30','0','30','60','90','120','150','180','210'})
+% dim = [.2 .5 .3 .3];
+% str = sprintf('Initial Condition: \theta =183  \n \phi=44 ');
+% text(1.1,0.5,str,'Interpreter','latex')
+% plot(timestep.*step_size,tau_state,'LineWidth',2);
+
+
 % \tau
 figure(4)
-plot(timestep.*step_size,tau, 'b.', 'LineWidth',1);
-title('$\tau$ with respect to time','Interpreter','latex','FontSize',12)
-xlabel('time -[s]','Interpreter','latex','FontSize',12);
-ylabel('$\tau$ -[Nm]','Interpreter','latex','FontSize',12);
+plot(timestep.*step_size,tau, 'b-', 'LineWidth',2);
+title('Torque during Balancing of the Robotic Gymnast','Interpreter','latex','FontSize',12)
+xlabel('Time [s]','Interpreter','latex','FontSize',12);
+ylabel('$\tau$ [Nm]','Interpreter','latex','FontSize',12);
 grid on 
 % axis normal
+
+% q1dot and q2dot
+figure(5)
+plot(timestep.*step_size,q1dot, '-', 'LineWidth',1)
+hold on
+grid on
+plot(timestep.*step_size,q2dot, '-', 'LineWidth',1);
+title('Angular Velocity of Double Pendulum during Swing-up','Interpreter','latex','FontSize',12)
+ylabel('$\dot{\phi}$ and $\dot{\theta}$ [rad/s]','Interpreter','latex','FontSize',12);
+xlabel('time [s]','Interpreter','latex','FontSize',12);
+legend({'$\dot{\theta}$','$\dot{\phi}$'},'Interpreter','latex','FontSize',12)
+yticks([-2*pi -1.5*pi -pi -0.5*pi 0 0.5*pi pi 1.5*pi 2*pi]);
+yticklabels({'-2\pi', '-1.5\pi', '-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi','2\pi'})
+
+
+
 
 
 

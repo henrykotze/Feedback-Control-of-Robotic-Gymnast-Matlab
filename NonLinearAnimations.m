@@ -3,13 +3,13 @@
 clear all;
 close all;
 % fetch variables of systems
-run('system_variables');
+run('FeedbackGain');
 %% time step for simulation
-step_size = 0.0001;          % time step
-time = 35;                      % time lenght of the simulation
+step_size = 0.001;          % time step
+time = 40;                      % time lenght of the simulation
 %% initial condition:
-theta_start = 0.2;            % [rad]
-phi_start = 0.0;              % [rad]
+theta_start = -0.15;            % [rad]
+phi_start = 0;              % [rad]
 theta_dot_start = 0.0;      % [rad/s]
 phi_dot_start = 0.0;       % [rad/s]
 state = 4;
@@ -17,9 +17,9 @@ state = 4;
 %% Simulation constants
 Kp = 58;
 Kd = 14;
-angle_restrict = pi/4;
-region_1 = pi/250;
-region_2 = pi/8;
+angle_restrict = pi/2;
+region_1 = 0.2;
+region_2 =  0.2;
 encoder_resolution = 1/896;
 ADC_resolution = 1/4095;
 
@@ -94,20 +94,23 @@ xlabel('time [s]','Interpreter','latex','FontSize',12);
 ylabel('$\tau$ [Nm]','Interpreter','latex','FontSize',12);
 grid on  
 axis normal
-
+%%
 % \theta and \phi
 figure(4)
-plot(timestep.*step_size,q1, '-', 'LineWidth',2)
+plot(timestep.*step_size,q1.*180/pi, '-', 'LineWidth',2)
 hold on
 grid on
-plot(timestep.*step_size,q2, '-', 'LineWidth',2);
+plot(timestep.*step_size,q2.*180/pi, '-', 'LineWidth',2);
 title('Angular Position of Robotic Gymnast during Swing-up \& Balancing','Interpreter','latex','FontSize',12)
-ylabel('$\phi$ and $\theta$ [rad]','Interpreter','latex','FontSize',12);
+ylabel('$\phi$ and $\theta$ [Degrees]','Interpreter','latex','FontSize',12);
 xlabel('Time [s]','Interpreter','latex','FontSize',12);
 legend({'$\theta$','$\phi$'},'Interpreter','latex','FontSize',12)
 yticks([-2*pi -1.5*pi -pi -0.5*pi 0 0.5*pi pi 1.5*pi 2*pi]);
-yticklabels({'-2\pi', '-1.5\pi', '-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi','2\pi'})
+yticks([-210 -180 -150 -120 -90 -60 -30 -0 30 60 90 120 150 180]);
 % plot(timestep.*step_size,tau_state,'LineWidth',2);
+
+% yticklabels({'-2\pi', '-1.5\pi', '-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi','2\pi'})
+%%
 
 figure(6)
 plot(timestep.*step_size,tau_state,'LineWidth',4);

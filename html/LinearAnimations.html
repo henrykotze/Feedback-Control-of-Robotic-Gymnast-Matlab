@@ -1,0 +1,357 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Visualising the Non-linear Model with Linear Controller</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-10-21"><meta name="DC.source" content="LinearAnimations.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Visualising the Non-linear Model with Linear Controller</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">fetch variables and K matrix</a></li><li><a href="#2">Run simulation, and draw Graphs</a></li><li><a href="#3">Run Animation</a></li></ul></div><h2 id="1">fetch variables and K matrix</h2><pre class="codeinput">run(<span class="string">'FeedbackGain'</span>);
+</pre><pre class="codeoutput">Ia
+    0.0022
+
+Ib
+    0.0036
+
+L1
+    0.2350
+
+L2
+    0.3100
+
+l1
+    0.2056
+
+l2
+    0.2115
+
+m1
+    0.5763
+
+m2
+    0.4928
+
+f1
+    0.0071
+
+f2
+    0.0075
+
+Eigenvalues from Quadratic Eigenvalue problem:
+  -11.1770
+   -4.9566
+   10.8690
+    5.0153
+
+
+A =
+
+         0         0    1.0000         0
+         0         0         0    1.0000
+   43.5699  -32.1894    0.7174         0
+  -45.3129  102.7904   -1.6947         0
+
+
+B =
+
+         0
+         0
+  -64.4418
+  164.9600
+
+K Matrix:
+ -201.1805  -70.8450  -31.8285  -12.0610
+
+Eigenvalues from ordinary eigenvalue problem:
+   11.3808
+    4.9922
+  -10.6775
+   -4.9782
+
+</pre><h2 id="2">Run simulation, and draw Graphs</h2><pre class="codeinput">time =5;
+theta_start = pi+pi/100;            <span class="comment">% [rad]</span>
+phi_start = -pi/80;              <span class="comment">% [rad]</span>
+theta_dot_start = 0;        <span class="comment">% [rad/s]</span>
+phi_dot_start = 0;          <span class="comment">% [rad/s]</span>
+step_size = 0.001
+motor_stall_torque = 6;
+sim(<span class="string">'NonlinearModel_LinearController'</span>);
+
+
+
+q1_angle = get(q1_angle,<span class="string">'Data'</span>);
+q2_angle = get(q2_angle,<span class="string">'Data'</span>);
+tau = get(tau,<span class="string">'Data'</span>);
+
+
+pointB = [L1*sin(q1_angle), -L1*cos(q1_angle)];
+pointC = [L1*sin(q1_angle)+L2*sin(q2_angle+q1_angle), -L1*cos(q1_angle)-L2*cos(q2_angle+q1_angle)];
+
+
+x_points = [zeros(size(pointB(1:end,1),1),1), pointB(1:end,1), pointC(1:end,1)];
+y_points = [zeros(size(pointB(1:end,2),1),1), pointB(1:end,2), pointC(1:end,2)];
+
+timestep  = 1:1:size(pointB(1:end,1));
+
+<span class="comment">% \phi angle</span>
+figure(1)
+plot(timestep.*step_size,q2_angle, <span class="string">'.'</span>, <span class="string">'LineWidth'</span>,1);
+title(<span class="string">'$\phi$ with respect to time'</span>,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'FontSize'</span>,12)
+ylabel(<span class="string">'$\phi$ -[rad]'</span>,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'FontSize'</span>,12);
+xlabel(<span class="string">'time -[s]'</span>,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'FontSize'</span>,12);
+yticks([-1.5*pi -pi -0.5*pi 0 0.5*pi pi 1.5*pi]);
+yticklabels({<span class="string">'-1.5\pi'</span>, <span class="string">'-\pi'</span>,<span class="string">'-0.5\pi'</span>,<span class="string">'0'</span>,<span class="string">'0.5\pi'</span>,<span class="string">'\pi'</span>,<span class="string">'1.5\pi'</span>})
+grid <span class="string">on</span>
+
+<span class="comment">% \theta angle</span>
+figure(2)
+plot(timestep.*step_size,q1_angle, <span class="string">'.'</span>, <span class="string">'LineWidth'</span>,1)
+title(<span class="string">'$\theta$ with respect to time'</span>,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'FontSize'</span>,12)
+yticks([-2*pi -pi 0 pi 2*pi]);
+ylabel(<span class="string">'$\theta$ -[rad]'</span>,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'FontSize'</span>,12);
+xlabel(<span class="string">'time -[s]'</span>,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'FontSize'</span>,12);
+yticklabels({<span class="string">'-1.5\pi'</span>,<span class="string">'-\pi'</span>,<span class="string">'-0.5\pi'</span>,<span class="string">'0'</span>,<span class="string">'0.5\pi'</span>,<span class="string">'\pi'</span>,<span class="string">'1.5\pi'</span>})
+yticks([-1.5*pi -1*pi -0.5*pi 0 0.5*pi 1*pi 1.5*pi]);
+grid <span class="string">on</span>
+
+<span class="comment">% \tau</span>
+figure(4)
+plot(timestep.*step_size,tau, <span class="string">'b.'</span>, <span class="string">'LineWidth'</span>,1);
+title(<span class="string">'$\tau$ with respect to time'</span>,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'FontSize'</span>,12)
+xlabel(<span class="string">'time -[s]'</span>,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'FontSize'</span>,12);
+ylabel(<span class="string">'$\tau$ -[Nm]'</span>,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'FontSize'</span>,12);
+grid <span class="string">on</span>
+<span class="comment">% axis normal</span>
+</pre><pre class="codeoutput">
+step_size =
+
+   1.0000e-03
+
+</pre><img vspace="5" hspace="5" src="LinearAnimations_01.png" alt=""> <img vspace="5" hspace="5" src="LinearAnimations_02.png" alt=""> <img vspace="5" hspace="5" src="LinearAnimations_03.png" alt=""> <h2 id="3">Run Animation</h2><pre class="codeinput">prompt = <span class="string">'Play Simulation: [yes == 1 / no == 0]?:'</span>
+reply = input(prompt);
+<span class="keyword">if</span> reply == 1
+
+    P0 = [0 0];
+
+    <span class="comment">% axis(goa,'equal');</span>
+    figure(10)
+    ax = gca;
+    ax.GridAlpha = 1;
+
+    text(L1,L1,<span class="string">'Non-Actuated Pendulum'</span>,<span class="string">'Color'</span>,<span class="string">'Red'</span>,<span class="string">'FontSize'</span>,12);
+    text(L1,L1/2,<span class="string">'Actuated Pendulum'</span>,<span class="string">'Color'</span>,<span class="string">'Black'</span>,<span class="string">'FontSize'</span>,12);
+    axis([-L1-L2, L1+L2, -L1-L2, L1+L2]);
+    grid <span class="string">on</span>
+    L1_dx = L1;
+    L2_dx = L2;
+
+    time_steps = 1:length(tout);
+<span class="comment">%      pause();</span>
+
+<span class="comment">%      v = VideoWriter('Balancing.mp4');</span>
+<span class="comment">%      v.Quality = 100;</span>
+<span class="comment">%      v.FrameRate = 30;</span>
+<span class="comment">%     open(v)</span>
+    <span class="keyword">for</span> step = 1:10:length(tout)
+        P1 = [L1_dx.*sin(q1_angle(step)) -L1_dx*cos(q1_angle(step))];
+        P2 = [L1_dx.*sin(q1_angle(step))+L2_dx.*sin(q1_angle(step)+q2_angle(step)), -L1_dx.*cos(q1_angle(step))-L2_dx.*cos(q1_angle(step)+q2_angle(step)) ];
+        <span class="comment">%addpoints(pendulum, [P1(1),P2(2)], [P1(2),P2(2)] );</span>
+
+        upper_pendulum = line( [P0(1) P1(1)], [ P0(2), P1(2) ],<span class="string">'Color'</span>,<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,2);
+        lower_pendulum = line( [P1(1) P2(1)], [ P1(2), P2(2) ],<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="string">'LineWidth'</span>,2);
+         pause(0);
+      frame = getframe;
+<span class="comment">%       writeVideo(v,frame);</span>
+        delete(upper_pendulum);
+        delete(lower_pendulum);
+
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+prompt =
+
+    'Play Simulation: [yes == 1 / no == 0]?:'
+
+</pre><pre class="codeoutput error">Error using input
+Cannot call INPUT from EVALC.
+
+Error in LinearAnimations (line 69)
+reply = input(prompt);
+</pre><p>close(v);</p><pre class="codeinput">disp(<span class="string">'Simulation Finished'</span>);
+close <span class="string">all</span>;
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Visualising the Non-linear Model with Linear Controller
+
+
+
+%% fetch variables and K matrix
+run('FeedbackGain');
+
+
+%% Run simulation, and draw Graphs
+time =5;
+theta_start = pi+pi/100;            % [rad]
+phi_start = -pi/80;              % [rad]
+theta_dot_start = 0;        % [rad/s]
+phi_dot_start = 0;          % [rad/s]
+step_size = 0.001
+motor_stall_torque = 6;
+sim('NonlinearModel_LinearController');
+
+
+
+q1_angle = get(q1_angle,'Data');
+q2_angle = get(q2_angle,'Data');
+tau = get(tau,'Data');
+
+ 
+pointB = [L1*sin(q1_angle), -L1*cos(q1_angle)];
+pointC = [L1*sin(q1_angle)+L2*sin(q2_angle+q1_angle), -L1*cos(q1_angle)-L2*cos(q2_angle+q1_angle)];
+
+
+x_points = [zeros(size(pointB(1:end,1),1),1), pointB(1:end,1), pointC(1:end,1)];
+y_points = [zeros(size(pointB(1:end,2),1),1), pointB(1:end,2), pointC(1:end,2)];
+
+timestep  = 1:1:size(pointB(1:end,1));
+
+% \phi angle 
+figure(1)
+plot(timestep.*step_size,q2_angle, '.', 'LineWidth',1);
+title('$\phi$ with respect to time','Interpreter','latex','FontSize',12)
+ylabel('$\phi$ -[rad]','Interpreter','latex','FontSize',12);
+xlabel('time -[s]','Interpreter','latex','FontSize',12);
+yticks([-1.5*pi -pi -0.5*pi 0 0.5*pi pi 1.5*pi]);
+yticklabels({'-1.5\pi', '-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi'})
+grid on
+
+% \theta angle
+figure(2)
+plot(timestep.*step_size,q1_angle, '.', 'LineWidth',1)
+title('$\theta$ with respect to time','Interpreter','latex','FontSize',12)
+yticks([-2*pi -pi 0 pi 2*pi]);
+ylabel('$\theta$ -[rad]','Interpreter','latex','FontSize',12);
+xlabel('time -[s]','Interpreter','latex','FontSize',12);
+yticklabels({'-1.5\pi','-\pi','-0.5\pi','0','0.5\pi','\pi','1.5\pi'})
+yticks([-1.5*pi -1*pi -0.5*pi 0 0.5*pi 1*pi 1.5*pi]);
+grid on
+
+% \tau
+figure(4)
+plot(timestep.*step_size,tau, 'b.', 'LineWidth',1);
+title('$\tau$ with respect to time','Interpreter','latex','FontSize',12)
+xlabel('time -[s]','Interpreter','latex','FontSize',12);
+ylabel('$\tau$ -[Nm]','Interpreter','latex','FontSize',12);
+grid on 
+% axis normal
+
+
+
+%% Run Animation
+prompt = 'Play Simulation: [yes == 1 / no == 0]?:'
+reply = input(prompt);
+if reply == 1
+
+    P0 = [0 0];
+
+    % axis(goa,'equal');
+    figure(10)
+    ax = gca;
+    ax.GridAlpha = 1;
+
+    text(L1,L1,'Non-Actuated Pendulum','Color','Red','FontSize',12);
+    text(L1,L1/2,'Actuated Pendulum','Color','Black','FontSize',12);
+    axis([-L1-L2, L1+L2, -L1-L2, L1+L2]);
+    grid on 
+    L1_dx = L1;
+    L2_dx = L2;
+
+    time_steps = 1:length(tout);
+%      pause();
+
+%      v = VideoWriter('Balancing.mp4');
+%      v.Quality = 100;
+%      v.FrameRate = 30;
+%     open(v)
+    for step = 1:10:length(tout)
+        P1 = [L1_dx.*sin(q1_angle(step)) -L1_dx*cos(q1_angle(step))];
+        P2 = [L1_dx.*sin(q1_angle(step))+L2_dx.*sin(q1_angle(step)+q2_angle(step)), -L1_dx.*cos(q1_angle(step))-L2_dx.*cos(q1_angle(step)+q2_angle(step)) ];
+        %addpoints(pendulum, [P1(1),P2(2)], [P1(2),P2(2)] );
+
+        upper_pendulum = line( [P0(1) P1(1)], [ P0(2), P1(2) ],'Color','r','LineWidth',2);
+        lower_pendulum = line( [P1(1) P2(1)], [ P1(2), P2(2) ],'Color','k','LineWidth',2);
+         pause(0);
+      frame = getframe;
+%       writeVideo(v,frame);
+        delete(upper_pendulum);
+        delete(lower_pendulum);
+
+    end
+end
+%%
+% close(v);
+disp('Simulation Finished');
+close all;
+
+##### SOURCE END #####
+--></body></html>
